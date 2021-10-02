@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Box } from '@mui/material';
+import { BrowserRouter, Route, RouteProps, Routes } from 'react-router-dom';
+import { paths } from './app/constants/paths';
+import { useAuth } from './app/hooks/useAuth';
+import { Wrapper } from './components/wrapper';
+import { Login } from './pages/login';
+import { Private } from './pages/private/Private';
+import { Role } from './pages/role';
+import { TestPage } from './pages/test';
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Box>
+        <Wrapper >
+          <Routes>
+            <Route path={paths.login} element={<Login />} />
+            <Route path={'/test'} element={<TestPage />} />     
+            <PrivateRoute path={'*'} element={<Private />} />
+          </Routes>
+        </Wrapper>
+      </Box>
+    </BrowserRouter>
+
   );
+}
+
+function PrivateRoute(props: RouteProps): React.ReactElement | null {
+  const {isAuthorized, isRegistration} = useAuth()
+  console.log(isAuthorized, isRegistration)
+
+  return (
+    <Route {...props} />
+  )
 }
 
 export default App;

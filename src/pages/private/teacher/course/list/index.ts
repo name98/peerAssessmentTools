@@ -1,0 +1,1 @@
+export { TCourseList } from './CourseList';
